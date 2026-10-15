@@ -1,0 +1,39 @@
+/**
+ * Styles for block_cynaris_stats.
+ *
+ * @package    block_cynaris_stats
+ * @copyright  2026 Sachidananda Nayak (Cynaris Solutions)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+.block_cynaris_stats .cynaris-stats-container {
+    padding: 0.25rem 0;
+}
+
+.block_cynaris_stats .cynaris-metrics-grid {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.block_cynaris_stats .cynaris-metric-card {
+    background-color: var(--light, #f8f9fa);
+    border: 1px solid var(--border-color, #dee2e6);
+    border-radius: 6px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.block_cynaris_stats .cynaris-metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.block_cynaris_stats .cynaris-metric-value {
+    font-size: 1.4rem;
+    line-height: 1.2;
+}
+
+.block_cynaris_stats .cynaris-metric-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
