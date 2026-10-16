@@ -37,3 +37,46 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+/* Cynaris Progress Dashboard Styles */
+.cynaris-dashboard-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.cynaris-dashboard-header h2 {
+    color: var(--primary, #0f6cbf);
+}
+
+.cynaris-empty-state-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+}
+
+.cynaris-chart-container {
+    position: relative;
+    min-height: 280px;
+    width: 100%;
+}
+
+.cynaris-cohort-overview .card,
+.cynaris-student-overview .card {
+    border-radius: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cynaris-cohort-overview .card:hover,
+.cynaris-student-overview .card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.max-w-600 {
+    max-width: 600px;
+}
+
+.max-w-700 {
+    max-width: 700px;
+}
+

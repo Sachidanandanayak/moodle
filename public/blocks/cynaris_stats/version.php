@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026101600;        // Current plugin release version (YYYYMMDDXX).
+$plugin->version   = 2026101601;        // Current plugin release version (YYYYMMDDXX).
 $plugin->requires  = 2026100200;        // Minimum required Moodle core version (Moodle 6.0dev).
 $plugin->component = 'block_cynaris_stats'; // Full Frankenstyle component name.
 $plugin->maturity  = MATURITY_STABLE;

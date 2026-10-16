@@ -185,15 +185,24 @@ class block_cynaris_stats extends block_base {
 
             $html .= html_writer::end_div(); // End cynaris-stats-container
 
-            // Footer action: link to participants if user has permission
+            // Footer actions: View Dashboard and Participants
+            $footerlinks = [];
+            $dashboardurl = new moodle_url('/blocks/cynaris_stats/dashboard.php', ['id' => $course->id]);
+            $footerlinks[] = html_writer::link(
+                $dashboardurl,
+                get_string('view_progress_dashboard', 'block_cynaris_stats'),
+                ['class' => 'btn btn-sm btn-primary btn-block w-100 mb-1']
+            );
+
             if ($context && has_capability('moodle/course:viewparticipants', $context)) {
                 $url = new moodle_url('/user/index.php', ['id' => $course->id]);
-                $this->content->footer = html_writer::link(
+                $footerlinks[] = html_writer::link(
                     $url,
                     get_string('viewparticipants', 'block_cynaris_stats'),
-                    ['class' => 'btn btn-sm btn-outline-primary btn-block w-100']
+                    ['class' => 'btn btn-sm btn-outline-secondary btn-block w-100']
                 );
             }
+            $this->content->footer = implode('', $footerlinks);
         } else {
             // Case 2: Front Page or Dashboard Context (Site-Wide Overview)
             $totalcourses = $DB->count_records_select('course', 'id > 1 AND visible = 1');
