@@ -92,3 +92,19 @@ $string['result'] = 'Result';
 $string['feedback'] = 'Instructor Feedback';
 $string['pending'] = 'Pending';
 
+// AI Tutor strings (W8D1).
+$string['cynaris_stats:useaitutor'] = 'Interact with Cynaris AI Course Tutor';
+$string['ai_tutor_button'] = 'AI Course Tutor';
+$string['tutor_title'] = 'AI Course Tutor';
+$string['tutor_heading'] = 'Interactive AI Course Tutor';
+$string['tutor_desc'] = 'Ask conceptual questions, review code patterns, and receive real-time guidance with automatic Groq-to-OpenRouter fallback.';
+$string['ask_tutor'] = 'Ask Question';
+$string['send'] = 'Send';
+$string['clear_chat'] = 'Clear Conversation';
+$string['input_placeholder'] = 'Type your programming or course question here (e.g., How does Moodle Frankenstyle work?)...';
+$string['provider_groq'] = 'Groq (Llama 3.3 70B)';
+$string['provider_openrouter'] = 'OpenRouter (Fallback)';
+$string['fallback_notice'] = 'Primary provider was busy; answer provided seamlessly via OpenRouter fallback.';
+$string['error_prompt_empty'] = 'Prompt cannot be empty.';
+$string['error_dual_failure'] = 'The AI Tutor service is temporarily unavailable across both primary and fallback providers. Please try again shortly.';
+

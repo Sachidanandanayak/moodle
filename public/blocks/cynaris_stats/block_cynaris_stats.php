@@ -185,13 +185,20 @@ class block_cynaris_stats extends block_base {
 
             $html .= html_writer::end_div(); // End cynaris-stats-container
 
-            // Footer actions: View Dashboard and Participants
+            // Footer actions: AI Course Tutor, Progress Dashboard and Participants
             $footerlinks = [];
+            $tutorurl = new moodle_url('/blocks/cynaris_stats/tutor.php', ['id' => $course->id]);
+            $footerlinks[] = html_writer::link(
+                $tutorurl,
+                get_string('ai_tutor_button', 'block_cynaris_stats'),
+                ['class' => 'btn btn-sm btn-info btn-block w-100 mb-1 text-white']
+            );
+
             $dashboardurl = new moodle_url('/blocks/cynaris_stats/dashboard.php', ['id' => $course->id]);
             $footerlinks[] = html_writer::link(
                 $dashboardurl,
                 get_string('view_progress_dashboard', 'block_cynaris_stats'),
-                ['class' => 'btn btn-sm btn-primary btn-block w-100 mb-1']
+                ['class' => 'btn btn-sm btn-outline-primary btn-block w-100 mb-1']
             );
 
             if ($context && has_capability('moodle/course:viewparticipants', $context)) {

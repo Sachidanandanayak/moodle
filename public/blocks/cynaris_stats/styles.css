@@ -80,3 +80,78 @@
     max-width: 700px;
 }
 
+/* Cynaris AI Tutor Styles (W8D1) */
+.cynaris-tutor-wrapper {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.cynaris-tutor-header-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    border-radius: 12px;
+}
+
+.cynaris-chat-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.cynaris-chips-container .cynaris-chip {
+    border-radius: 20px;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.cynaris-chips-container .cynaris-chip:hover {
+    background-color: var(--info, #17a2b8);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.cynaris-messages-window {
+    background-color: #f8fafc;
+    scroll-behavior: smooth;
+}
+
+.cynaris-bubble {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    font-size: 0.94rem;
+    line-height: 1.55;
+    word-break: break-word;
+}
+
+.cynaris-bubble.tutor-bubble {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+
+.cynaris-bubble.user-bubble {
+    background-color: var(--primary, #0f6cbf) !important;
+}
+
+.cynaris-avatar {
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#cynaris-prompt-input {
+    resize: none;
+    border-radius: 8px 0 0 8px;
+    font-size: 0.95rem;
+}
+
+#cynaris-send-btn {
+    border-radius: 0 8px 8px 0;
+    font-weight: 600;
+}
+
+@media (max-width: 576px) {
+    .cynaris-bubble {
+        max-width: 95% !important;
+    }
+    .cynaris-tutor-header-card h2 {
+        font-size: 1.25rem;
+    }
+}
+
