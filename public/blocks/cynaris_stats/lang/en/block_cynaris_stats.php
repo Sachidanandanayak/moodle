@@ -106,5 +106,16 @@ $string['provider_groq'] = 'Groq (Llama 3.3 70B)';
 $string['provider_openrouter'] = 'OpenRouter (Fallback)';
 $string['fallback_notice'] = 'Primary provider was busy; answer provided seamlessly via OpenRouter fallback.';
 $string['error_prompt_empty'] = 'Prompt cannot be empty.';
-$string['error_dual_failure'] = 'The AI Tutor service is temporarily unavailable across both primary and fallback providers. Please try again shortly.';
-
+// AI Quiz Generator strings (W8D2).
+$string['cynaris_stats:generatequiz'] = 'Generate AI quizzes and question bank items';
+$string['ai_quiz_generator_button'] = 'AI Quiz Generator';
+$string['quiz_gen_title'] = 'AI Quiz Generator';
+$string['quiz_gen_heading'] = 'AI Quiz & Question Bank Generator';
+$string['quiz_gen_desc'] = 'Generate 5 high-quality MCQs from course content with Groq Llama 3.3 70B and publish directly into Moodle Question Bank and Quiz activities.';
+$string['quiz_gen_content_label'] = 'Course / Lecture Content';
+$string['quiz_gen_quizname_label'] = 'Quiz Title';
+$string['quiz_gen_section_label'] = 'Target Course Section';
+$string['quiz_gen_generate_btn'] = 'Generate 5 MCQs with AI';
+$string['quiz_gen_publish_btn'] = 'Import to Question Bank & Create Quiz';
+$string['quiz_gen_export_gift'] = 'Export GIFT Format';
+$string['quiz_gen_success'] = 'Quiz created and questions imported successfully!';

@@ -155,3 +155,27 @@
     }
 }
 
+/* Cynaris AI Quiz Generator Styles (W8D2) */
+.cynaris-quizgen-wrapper {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.cynaris-quizgen-header-card {
+    border-radius: 12px;
+}
+
+#questions-accordion .card {
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#questions-accordion .card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.list-group-item-success {
+    background-color: #f0fdf4 !important;
+    color: #166534 !important;
+}
+

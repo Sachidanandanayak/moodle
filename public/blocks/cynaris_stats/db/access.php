@@ -66,4 +66,16 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
+
+    'block/cynaris_stats:generatequiz' => [
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/course:manageactivities',
+    ],
 ];
+

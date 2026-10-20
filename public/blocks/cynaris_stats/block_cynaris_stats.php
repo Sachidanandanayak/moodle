@@ -185,7 +185,7 @@ class block_cynaris_stats extends block_base {
 
             $html .= html_writer::end_div(); // End cynaris-stats-container
 
-            // Footer actions: AI Course Tutor, Progress Dashboard and Participants
+            // Footer actions: AI Course Tutor, AI Quiz Generator, Progress Dashboard and Participants
             $footerlinks = [];
             $tutorurl = new moodle_url('/blocks/cynaris_stats/tutor.php', ['id' => $course->id]);
             $footerlinks[] = html_writer::link(
@@ -193,6 +193,15 @@ class block_cynaris_stats extends block_base {
                 get_string('ai_tutor_button', 'block_cynaris_stats'),
                 ['class' => 'btn btn-sm btn-info btn-block w-100 mb-1 text-white']
             );
+
+            if ($context && (has_capability('block/cynaris_stats:generatequiz', $context) || has_capability('moodle/course:manageactivities', $context))) {
+                $quizgenurl = new moodle_url('/blocks/cynaris_stats/quiz_generator.php', ['id' => $course->id]);
+                $footerlinks[] = html_writer::link(
+                    $quizgenurl,
+                    get_string('ai_quiz_generator_button', 'block_cynaris_stats'),
+                    ['class' => 'btn btn-sm btn-block w-100 mb-1 text-white', 'style' => 'background: linear-gradient(135deg, #7c3aed, #4f46e5); border: none;']
+                );
+            }
 
             $dashboardurl = new moodle_url('/blocks/cynaris_stats/dashboard.php', ['id' => $course->id]);
             $footerlinks[] = html_writer::link(
