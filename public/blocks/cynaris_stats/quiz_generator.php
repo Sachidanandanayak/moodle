@@ -448,15 +448,23 @@ All API credentials remain strictly confined to the server backend. Any errors r
             });
             optionsHtml += '</div>';
 
+            const isFirst = (idx === 0);
             card.innerHTML = `
-                <div class="card-header bg-light py-2 px-3 d-flex justify-content-between align-items-center" style="cursor: pointer;" data-toggle="collapse" data-target="#qcollapse-${idx}">
+                <div class="card-header bg-light py-2 px-3 d-flex justify-content-between align-items-center cynaris-accordion-header ${isFirst ? '' : 'collapsed'}"
+                     style="cursor: pointer;"
+                     data-toggle="collapse"
+                     data-target="#qcollapse-${idx}"
+                     data-bs-toggle="collapse"
+                     data-bs-target="#qcollapse-${idx}"
+                     aria-expanded="${isFirst ? 'true' : 'false'}"
+                     aria-controls="qcollapse-${idx}">
                     <span class="font-weight-bold text-dark small">
                         <span class="badge badge-primary mr-2">Q${idx + 1}</span>
                         ${escapeHtml(q.question_text)}
                     </span>
-                    <i class="fa fa-chevron-down text-muted small"></i>
+                    <i class="fa ${isFirst ? 'fa-chevron-up' : 'fa-chevron-down'} text-muted small cynaris-accordion-icon"></i>
                 </div>
-                <div id="qcollapse-${idx}" class="collapse ${idx === 0 ? 'show' : ''}">
+                <div id="qcollapse-${idx}" class="collapse ${isFirst ? 'show' : ''}">
                     <div class="card-body p-0">
                         ${optionsHtml}
                         <div class="p-3 bg-light border-top small">
@@ -469,6 +477,77 @@ All API credentials remain strictly confined to the server backend. Any errors r
             accordion.appendChild(card);
         });
     }
+
+    // Synchronize chevron icons and ARIA state with Bootstrap collapse events
+    accordion.addEventListener('show.bs.collapse', function(e) {
+        const card = e.target.closest('.card');
+        if (!card) return;
+        const header = card.querySelector('.card-header');
+        if (header) {
+            header.setAttribute('aria-expanded', 'true');
+            header.classList.remove('collapsed');
+            const icon = header.querySelector('.cynaris-accordion-icon');
+            if (icon) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    });
+
+    accordion.addEventListener('hide.bs.collapse', function(e) {
+        const card = e.target.closest('.card');
+        if (!card) return;
+        const header = card.querySelector('.card-header');
+        if (header) {
+            header.setAttribute('aria-expanded', 'false');
+            header.classList.add('collapsed');
+            const icon = header.querySelector('.cynaris-accordion-icon');
+            if (icon) {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+    });
+
+    // Fallback toggle in case Bootstrap data-api is not active in the current theme
+    accordion.addEventListener('click', function(e) {
+        const header = e.target.closest('.card-header');
+        if (!header || !accordion.contains(header)) return;
+
+        const targetSelector = header.getAttribute('data-bs-target') || header.getAttribute('data-target');
+        const targetEl = targetSelector ? accordion.querySelector(targetSelector) : header.nextElementSibling;
+        if (!targetEl) return;
+
+        setTimeout(function() {
+            // If Bootstrap did not initiate a collapse transition ('collapsing')
+            if (!targetEl.classList.contains('collapsing')) {
+                const isShown = targetEl.classList.contains('show');
+                const ariaState = (header.getAttribute('aria-expanded') === 'true');
+                if (isShown === ariaState) {
+                    // Bootstrap data-api did not toggle this element; toggle manually
+                    if (isShown) {
+                        targetEl.classList.remove('show');
+                        header.setAttribute('aria-expanded', 'false');
+                        header.classList.add('collapsed');
+                        const icon = header.querySelector('.cynaris-accordion-icon');
+                        if (icon) {
+                            icon.classList.remove('fa-chevron-up');
+                            icon.classList.add('fa-chevron-down');
+                        }
+                    } else {
+                        targetEl.classList.add('show');
+                        header.setAttribute('aria-expanded', 'true');
+                        header.classList.remove('collapsed');
+                        const icon = header.querySelector('.cynaris-accordion-icon');
+                        if (icon) {
+                            icon.classList.remove('fa-chevron-down');
+                            icon.classList.add('fa-chevron-up');
+                        }
+                    }
+                }
+            }
+        }, 50);
+    });
 
     // Publish to Question Bank and Create Quiz
     btnPublish.addEventListener('click', async function() {
@@ -483,6 +562,15 @@ All API credentials remain strictly confined to the server backend. Any errors r
         btnPublish.disabled = true;
         btnPublish.innerHTML = '<span class="spinner-border spinner-border-sm mr-2"></span> Publishing to Moodle...';
 
+        const publishQuestions = currentQuestions.map(q => {
+            const letter = q.correct_answer || q.correct_letter || (typeof q.correct_index === 'number' && ['A', 'B', 'C', 'D'][q.correct_index]) || '';
+            return {
+                ...q,
+                correct_answer: letter,
+                correct_letter: letter
+            };
+        });
+
         try {
             const resp = await fetch(apiurl, {
                 method: 'POST',
@@ -496,7 +584,7 @@ All API credentials remain strictly confined to the server backend. Any errors r
                     sesskey: sesskey,
                     quizname: quizname,
                     section: section,
-                    questions: currentQuestions
+                    questions: publishQuestions
                 })
             });
 
@@ -529,6 +617,15 @@ All API credentials remain strictly confined to the server backend. Any errors r
             return;
         }
 
+        const giftQuestions = currentQuestions.map(q => {
+            const letter = q.correct_answer || q.correct_letter || (typeof q.correct_index === 'number' && ['A', 'B', 'C', 'D'][q.correct_index]) || '';
+            return {
+                ...q,
+                correct_answer: letter,
+                correct_letter: letter
+            };
+        });
+
         try {
             const resp = await fetch(apiurl, {
                 method: 'POST',
@@ -540,7 +637,7 @@ All API credentials remain strictly confined to the server backend. Any errors r
                     action: 'export_gift',
                     courseid: courseid,
                     sesskey: sesskey,
-                    questions: currentQuestions
+                    questions: giftQuestions
                 })
             });
 

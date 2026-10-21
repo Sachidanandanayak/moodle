@@ -179,3 +179,16 @@
     color: #166534 !important;
 }
 
+#questions-accordion .cynaris-accordion-header {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease;
+}
+
+#questions-accordion .cynaris-accordion-header:hover {
+    background-color: #f1f5f9 !important;
+}
+
+#questions-accordion .cynaris-accordion-icon {
+    transition: transform 0.2s ease;
+}

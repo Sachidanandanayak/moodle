@@ -307,7 +307,23 @@ JSON SCHEMA:
             }
 
             // 3. Correct answer validation.
-            if (!isset($q['correct_answer'])) {
+            // Check for correct answer across canonical and alternate keys.
+            $correctraw = null;
+            if (isset($q['correct_answer']) && $q['correct_answer'] !== '') {
+                $correctraw = $q['correct_answer'];
+            } elseif (isset($q['correct_letter']) && $q['correct_letter'] !== '') {
+                $correctraw = $q['correct_letter'];
+            } elseif (isset($q['correct_index']) && $q['correct_index'] !== '') {
+                $correctraw = $q['correct_index'];
+            } elseif (isset($q['correct_option']) && $q['correct_option'] !== '') {
+                $correctraw = $q['correct_option'];
+            } elseif (isset($q['correctAnswer']) && $q['correctAnswer'] !== '') {
+                $correctraw = $q['correctAnswer'];
+            } elseif (isset($q['correct_answer_text']) && $q['correct_answer_text'] !== '') {
+                $correctraw = $q['correct_answer_text'];
+            }
+
+            if ($correctraw === null || (is_string($correctraw) && trim($correctraw) === '')) {
                 return [
                     'valid' => false,
                     'questions' => [],
@@ -316,7 +332,7 @@ JSON SCHEMA:
                 ];
             }
 
-            $correctraw = trim((string) $q['correct_answer']);
+            $correctraw = trim((string) $correctraw);
             $correctindex = null;
 
             // Option 3a: Direct letter match ('A', 'B', 'C', 'D').
@@ -365,6 +381,7 @@ JSON SCHEMA:
                 'number' => $qnum,
                 'question_text' => $questiontext,
                 'options' => $cleanoptions,
+                'correct_answer' => $indexletters[$correctindex],
                 'correct_index' => $correctindex,
                 'correct_letter' => $indexletters[$correctindex],
                 'correct_answer_text' => $cleanoptions[$correctindex],
@@ -578,7 +595,19 @@ JSON SCHEMA:
 
             $gift .= "::{$title}:: {$stem} {\n";
 
-            $correctindex = $q['correct_index'] ?? 0;
+            $correctindex = null;
+            if (isset($q['correct_index']) && is_numeric($q['correct_index'])) {
+                $correctindex = (int) $q['correct_index'];
+            } elseif (!empty($q['correct_letter'])) {
+                $lettermap = ['A' => 0, 'B' => 1, 'C' => 2, 'D' => 3];
+                $correctindex = $lettermap[strtoupper(trim($q['correct_letter']))] ?? null;
+            } elseif (!empty($q['correct_answer'])) {
+                $lettermap = ['A' => 0, 'B' => 1, 'C' => 2, 'D' => 3];
+                $correctindex = $lettermap[strtoupper(trim($q['correct_answer']))] ?? null;
+            }
+            if ($correctindex === null || $correctindex < 0 || $correctindex >= count($q['options'])) {
+                $correctindex = 0;
+            }
             foreach ($q['options'] as $idx => $opt) {
                 $escapedopt = self::escape_gift_text($opt);
                 if ($idx === $correctindex) {
@@ -643,12 +672,37 @@ JSON SCHEMA:
         $qdata->answernumbering = 'abc';
         $qdata->showstandardinstruction = 0;
         $qdata->noanswers = self::REQUIRED_OPTION_COUNT;
+        $qdata->correctfeedback = [
+            'text' => '',
+            'format' => FORMAT_HTML,
+        ];
+        $qdata->partiallycorrectfeedback = [
+            'text' => '',
+            'format' => FORMAT_HTML,
+        ];
+        $qdata->incorrectfeedback = [
+            'text' => '',
+            'format' => FORMAT_HTML,
+        ];
+        $qdata->shownumcorrect = 0;
 
         $qdata->answer = [];
         $qdata->fraction = [];
         $qdata->feedback = [];
 
-        $correctidx = $mcq['correct_index'] ?? 0;
+        $correctidx = null;
+        if (isset($mcq['correct_index']) && is_numeric($mcq['correct_index'])) {
+            $correctidx = (int) $mcq['correct_index'];
+        } elseif (!empty($mcq['correct_letter'])) {
+            $lettermap = ['A' => 0, 'B' => 1, 'C' => 2, 'D' => 3];
+            $correctidx = $lettermap[strtoupper(trim($mcq['correct_letter']))] ?? null;
+        } elseif (!empty($mcq['correct_answer'])) {
+            $lettermap = ['A' => 0, 'B' => 1, 'C' => 2, 'D' => 3];
+            $correctidx = $lettermap[strtoupper(trim($mcq['correct_answer']))] ?? null;
+        }
+        if ($correctidx === null || $correctidx < 0 || $correctidx >= count($mcq['options'])) {
+            $correctidx = 0;
+        }
 
         foreach ($mcq['options'] as $idx => $opttext) {
             $qdata->answer[$idx] = [
@@ -687,12 +741,12 @@ JSON SCHEMA:
      * @throws \moodle_exception
      */
     public static function import_to_question_bank(array $questions, int $courseid, ?int $targetcategoryid = null): array {
-        global $DB, $USER;
+        global $DB, $USER, $CFG;
 
         require_once(__DIR__ . '/../../../../config.php');
-        require_once($GLOBALS['CFG']->dirroot . '/question/engine/bank.php');
-        require_once($GLOBALS['CFG']->dirroot . '/question/type/questiontypebase.php');
-        require_once($GLOBALS['CFG']->dirroot . '/lib/questionlib.php');
+        require_once($CFG->dirroot . '/question/engine/bank.php');
+        require_once($CFG->dirroot . '/question/type/questiontypebase.php');
+        require_once($CFG->dirroot . '/lib/questionlib.php');
 
         $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
         $context = \context_course::instance($course->id);
