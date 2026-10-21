@@ -364,3 +364,22 @@ $CFG->openrouter_api_key = 'sk-or-your_openrouter_api_key_here';
 * **Fork Repository:** `https://github.com/Sachidanandanayak/moodle.git`
 * **PR Target Repository:** `Sachidanandanayak/moodle` (never upstream `moodle/moodle`)
 * **PR Creation Link:** `https://github.com/Sachidanandanayak/moodle/compare/feat/w8d1-3m-sachidananda...feat/w8d2-3m-sachidananda?expand=1`
+
+## W8D2 Bug Fixes and End-to-End Verification
+
+### Fixes Completed
+- Fixed the question accordion by using Bootstrap 5-compatible collapse attributes and synchronizing the expanded state and chevron icons.
+- Fixed the question publication schema so the canonical `correct_answer` field is preserved and validated.
+- Fixed Moodle Question Bank import by providing the required global configuration and combined-feedback fields.
+
+### Verification Results
+- Generated and validated exactly five multiple-choice questions.
+- Published all five questions to Moodle's Question Bank and created a quiz activity.
+- Completed a quiz attempt and verified a score of 5/5 (100/100).
+- Quiz Generator tests: 72 passed, 0 failed, 2 skipped.
+- AI Tutor tests: 42 passed, 0 failed.
+- `git diff --check`: passed with no whitespace errors.
+
+### Git
+- Branch: `feat/w8d2-3m-sachidananda`
+- Bug-fix commit: `349b383d10d`
