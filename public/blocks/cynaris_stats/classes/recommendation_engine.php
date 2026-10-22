@@ -733,4 +733,40 @@ class recommendation_engine {
         }
         return (new moodle_url('/course/view.php', ['id' => $this->courseid]))->out(false);
     }
+
+    /**
+     * Retrieve recent course interaction telemetry using optimized SARGable temporal indexing (W8D4).
+     *
+     * Leverages Moodle's composite covering index: m_logsstanlog_couanotim_ix (courseid, anonymous, timecreated).
+     * Avoids non-SARGable runtime SQL scalar casting by binding native integer timestamps.
+     *
+     * @param int $days Number of preceding days to audit.
+     * @return array Aggregated event records.
+     */
+    public function get_recent_activity_summary(int $days = 7): array {
+        global $DB;
+
+        if (empty($DB) || !method_exists($DB, 'get_records_sql')) {
+            return [];
+        }
+
+        $timethreshold = time() - ($days * 86400);
+
+        $sql = "SELECT l.eventname, l.component, l.action, l.target,
+                       COUNT(l.id) AS total_events,
+                       COUNT(DISTINCT l.userid) AS unique_active_users,
+                       MIN(l.timecreated) AS first_event,
+                       MAX(l.timecreated) AS latest_event
+                  FROM {logstore_standard_log} l
+                 WHERE l.courseid = :courseid
+                   AND l.anonymous = 0
+                   AND l.timecreated >= :timestart
+              GROUP BY l.eventname, l.component, l.action, l.target
+              ORDER BY total_events DESC";
+
+        return $DB->get_records_sql($sql, [
+            'courseid' => $this->courseid,
+            'timestart' => $timethreshold,
+        ]);
+    }
 }
