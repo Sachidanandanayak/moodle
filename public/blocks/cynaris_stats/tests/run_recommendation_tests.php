@@ -605,6 +605,12 @@ run_rec_test("Full report contains all required keys and valid timestamp", funct
         $report['timestamp'] > 0;
 });
 
+run_rec_test("Optimized activity query handles offline DB fallback safely", function () {
+    $engine = new recommendation_engine(2, 4, null, false);
+    $result = $engine->get_recent_activity_summary(7);
+    return is_array($result);
+});
+
 echo "\n======================================================================\n";
 printf("  TEST EXECUTION SUMMARY: %d PASSED, %d FAILED, %d SKIPPED (TOTAL %d)\n",
     $passed, $failed, $skipped, $passed + $failed + $skipped);
