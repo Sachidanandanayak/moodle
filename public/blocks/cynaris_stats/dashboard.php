@@ -80,6 +80,8 @@ $badgeclass = $canviewall ? 'badge-primary' : 'badge-info';
 echo html_writer::tag('span', s($rolelabel), ['class' => 'badge ' . $badgeclass . ' p-2 mr-2']);
 
 $courseurl = new moodle_url('/course/view.php', ['id' => $course->id]);
+$recurl = new moodle_url('/blocks/cynaris_stats/recommendations.php', ['id' => $course->id]);
+echo html_writer::link($recurl, get_string('ai_recommendations_button', 'block_cynaris_stats'), ['class' => 'btn btn-primary btn-sm mr-1']);
 echo html_writer::link($courseurl, get_string('back_to_course', 'block_cynaris_stats'), ['class' => 'btn btn-outline-secondary btn-sm']);
 echo html_writer::end_div();
 echo html_writer::end_div(); // End header

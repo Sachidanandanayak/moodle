@@ -203,6 +203,14 @@ class block_cynaris_stats extends block_base {
                 );
             }
 
+            // AI Learning Recommendations (W8D3)
+            $recurl = new moodle_url('/blocks/cynaris_stats/recommendations.php', ['id' => $course->id]);
+            $footerlinks[] = html_writer::link(
+                $recurl,
+                get_string('ai_recommendations_button', 'block_cynaris_stats'),
+                ['class' => 'btn btn-sm btn-block w-100 mb-1 text-white', 'style' => 'background: linear-gradient(135deg, #0284c7, #2563eb); border: none;']
+            );
+
             $dashboardurl = new moodle_url('/blocks/cynaris_stats/dashboard.php', ['id' => $course->id]);
             $footerlinks[] = html_writer::link(
                 $dashboardurl,

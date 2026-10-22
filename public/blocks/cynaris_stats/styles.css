@@ -192,3 +192,21 @@
 #questions-accordion .cynaris-accordion-icon {
     transition: transform 0.2s ease;
 }
+
+/* Cynaris AI Learning Recommendations Styles (W8D3) */
+.cynaris-rec-wrapper {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.cynaris-rec-wrapper .card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cynaris-rec-wrapper .card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.font-size-2rem {
+    font-size: 2rem;
+}

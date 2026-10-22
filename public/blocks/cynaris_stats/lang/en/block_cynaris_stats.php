@@ -119,3 +119,25 @@ $string['quiz_gen_generate_btn'] = 'Generate 5 MCQs with AI';
 $string['quiz_gen_publish_btn'] = 'Import to Question Bank & Create Quiz';
 $string['quiz_gen_export_gift'] = 'Export GIFT Format';
 $string['quiz_gen_success'] = 'Quiz created and questions imported successfully!';
+
+// AI Learning Recommendations strings (W8D3).
+$string['cynaris_stats:viewrecommendations'] = 'View personalized AI learning recommendations';
+$string['ai_recommendations_button'] = 'AI Learning Recommendations';
+$string['rec_title'] = 'AI Learning Recommendations';
+$string['rec_heading'] = 'AI Learning Recommendations & Weak Area Analysis';
+$string['rec_desc'] = 'Personalized, evidence-based study guidance synthesized from verified Moodle grades and activity completion records.';
+$string['rec_overall_standing'] = 'Academic Standing & Velocity';
+$string['rec_weak_areas_title'] = 'Identified Competency & Pacing Gaps';
+$string['rec_actions_title'] = 'Prioritized Recommended Action Plan';
+$string['rec_ai_plan_title'] = 'Personalized AI Study Path Strategy';
+$string['rec_select_student'] = 'Select Student to Inspect:';
+$string['rec_no_weak_areas'] = 'No critical gaps or failing assessments identified! Outstanding mastery.';
+$string['rec_empty_data'] = 'No grades or activity completion records available yet for this student.';
+$string['rec_badge_critical'] = 'Critical Remediation';
+$string['rec_badge_warning'] = 'Needs Improvement';
+$string['rec_badge_info'] = 'Pending Assessment';
+$string['rec_badge_mastery'] = 'Academic Distinction';
+$string['rec_score_label'] = 'Verified Score';
+$string['rec_completion_label'] = 'Activity Completion';
+$string['rec_view_dashboard'] = 'Open Progress Dashboard';
+$string['rec_open_tutor'] = 'Ask AI Tutor About These Gaps';
