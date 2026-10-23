@@ -1,0 +1,16 @@
+# Production Railway Dockerfile for Cynaris Moodle Fork
+FROM moodlehq/moodle-php-apache:8.3
+
+# Copy Moodle repository into apache document root
+WORKDIR /var/www/html
+COPY . /var/www/html/
+
+# Ensure moodledata directory exists with proper permissions
+RUN mkdir -p /var/www/moodledata \
+    && chown -R www-data:www-data /var/www/moodledata /var/www/html \
+    && chmod -R 775 /var/www/moodledata
+
+# Port 80 exposed for Railway reverse proxy
+EXPOSE 80
+
+CMD ["apache2-foreground"]
